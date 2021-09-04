@@ -1381,6 +1381,7 @@ restack(Monitor *m)
 				wc.sibling = c->win;
 			}
 	}
+	XRaiseWindow(dpy, m->barwin); /* make bar always on top */
 	XSync(dpy, False);
 	while (XCheckMaskEvent(dpy, EnterWindowMask, &ev));
 }
