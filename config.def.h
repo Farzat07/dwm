@@ -97,6 +97,15 @@ static Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
+	{ MODKEY,                       XK_Left,   togglehorizontalmax, {.i = -1 } },
+	{ MODKEY,                       XK_Right,  togglehorizontalmax, {.i = +1 } },
+	{ MODKEY,                       XK_Down,   toggleverticalmax,   {.i = -1 } },
+	{ MODKEY,                       XK_Up,     toggleverticalmax,   {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_Left,   togglehorizontalmax, {.i = -2 } },
+	{ MODKEY|ShiftMask,             XK_Right,  togglehorizontalmax, {.i = +2 } },
+	{ MODKEY|ShiftMask,             XK_Down,   toggleverticalmax,   {.i = -2 } },
+	{ MODKEY|ShiftMask,             XK_Up,     toggleverticalmax,   {.i = +2 } },
+	{ MODKEY|ShiftMask,             XK_m,      togglemaximize, {0} },
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 };
 

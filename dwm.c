@@ -93,6 +93,7 @@ struct Client {
 	int bw, oldbw;
 	unsigned int tags;
 	int isfixed, isfloating, isurgent, neverfocus, oldstate, isfullscreen;
+	int vertical_max, horizontal_max, wasfloating, origx, origy, origw, origh;  // For maximize code.
 	Client *next;
 	Client *snext;
 	Monitor *mon;
@@ -237,6 +238,10 @@ static int xerror(Display *dpy, XErrorEvent *ee);
 static int xerrordummy(Display *dpy, XErrorEvent *ee);
 static int xerrorstart(Display *dpy, XErrorEvent *ee);
 static void zoom(const Arg *arg);
+static void maximize(int x, int y, int w, int h, int vertical_max, int horizontal_max);
+static void togglemaximize(const Arg *arg);
+static void toggleverticalmax(const Arg *arg);
+static void togglehorizontalmax(const Arg *arg);
 
 /* variables */
 static const char broken[] = "broken";
@@ -1119,6 +1124,9 @@ manage(Window w, XWindowAttributes *wa)
 	updatewmhints(c);
 	XSelectInput(dpy, w, EnterWindowMask|FocusChangeMask|PropertyChangeMask|StructureNotifyMask);
 	grabbuttons(c, 0);
+	c->wasfloating = 0;
+	c->vertical_max = 0;
+	c->horizontal_max = 0;
 	if (!c->isfloating)
 		c->isfloating = c->oldstate = trans != None || c->isfixed;
 	if (c->isfloating)
@@ -2262,4 +2270,90 @@ main(int argc, char *argv[])
 	cleanup();
 	XCloseDisplay(dpy);
 	return EXIT_SUCCESS;
+}
+
+void
+maximize(int x, int y, int w, int h, int vertical_max, int horizontal_max) {
+	XEvent ev;
+
+	if(!selmon->sel || selmon->sel->isfixed)
+		return;
+	XRaiseWindow(dpy, selmon->sel->win);
+	if(!selmon->sel->vertical_max) {
+		selmon->sel->origy = selmon->sel->y;
+		selmon->sel->origh = selmon->sel->h;
+	}
+	if(!selmon->sel->horizontal_max) {
+		selmon->sel->origx = selmon->sel->x;
+		selmon->sel->origw = selmon->sel->w;
+	}
+	if(vertical_max || horizontal_max) {
+		if(!selmon->lt[selmon->sellt]->arrange || selmon->sel->isfloating)
+			selmon->sel->wasfloating = True;
+		else {
+			togglefloating(NULL);
+			selmon->sel->wasfloating = False;
+		}
+		resize(selmon->sel, x, y, w, h, True);
+		selmon->sel->vertical_max = vertical_max;
+		selmon->sel->horizontal_max = horizontal_max;
+	} else {
+		resize(selmon->sel, selmon->sel->origx, selmon->sel->origy, selmon->sel->origw, selmon->sel->origh, True);
+		if(!selmon->sel->wasfloating)
+			togglefloating(NULL);
+		selmon->sel->vertical_max = False;
+		selmon->sel->horizontal_max = False;
+	}
+	drawbar(selmon);
+	while(XCheckMaskEvent(dpy, EnterWindowMask, &ev));
+}
+
+void
+togglemaximize(const Arg *arg) {
+	if(selmon->sel->vertical_max || selmon->sel->horizontal_max)
+		maximize(0, 0, 0, 0, 0, 0);
+	else
+		maximize(selmon->wx, selmon->wy, selmon->ww - 2 * borderpx, selmon->wh - 2 * borderpx, 2, 2);
+}
+
+void
+toggleverticalmax(const Arg *arg) {
+	switch((selmon->sel->vertical_max + arg->i) % 4) {
+		case 0:  // Original state.
+			maximize(selmon->sel->x, selmon->sel->origy, selmon->sel->w, selmon->sel->origh, 0, selmon->sel->horizontal_max);
+			break;
+		case 1:  // Bottom half.
+		case -3:  // Bottom half.
+			maximize(selmon->sel->x, selmon->wy + selmon->wh / 2, selmon->sel->w, selmon->wh / 2 - 2 * borderpx, 1, selmon->sel->horizontal_max);
+			break;
+		case 2:  // Full height.
+		case -2:  // Full height.
+			maximize(selmon->sel->x, selmon->wy, selmon->sel->w, selmon->wh - 2 * borderpx, 2, selmon->sel->horizontal_max);
+			break;
+		case 3:  // Top half.
+		case -1:  // Top half.
+			maximize(selmon->sel->x, selmon->wy, selmon->sel->w, selmon->wh / 2 - 2 * borderpx, 3, selmon->sel->horizontal_max);
+			break;
+	}
+}
+
+void
+togglehorizontalmax(const Arg *arg) {
+	switch((selmon->sel->horizontal_max + arg->i) % 4) {
+		case 0:  // Original state.
+			maximize(selmon->sel->origx, selmon->sel->y, selmon->sel->origw, selmon->sel->h, selmon->sel->vertical_max, 0);
+			break;
+		case 1:  // Left half.
+		case -3:  // Left half.
+			maximize(selmon->wx, selmon->sel->y, selmon->ww / 2 - 2 * borderpx, selmon->sel->h, selmon->sel->vertical_max, 1);
+			break;
+		case 2:  // Full width.
+		case -2:  // Full width.
+			maximize(selmon->wx, selmon->sel->y, selmon->ww - 2 * borderpx, selmon->sel->h, selmon->sel->vertical_max, 2);
+			break;
+		case 3:  // Right half.
+		case -1:  // Right half.
+			maximize(selmon->wx + selmon->ww / 2, selmon->sel->y, selmon->ww / 2 - 2 * borderpx, selmon->sel->h, selmon->sel->vertical_max, 3);
+			break;
+	}
 }
