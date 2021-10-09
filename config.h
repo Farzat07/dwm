@@ -77,6 +77,8 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY,                       XK_c,      killclient,     {0} },
+	{ MODKEY,                       XK_v,      spawn,          SHCMD("clipmenu") },
+	{ MODKEY|ShiftMask,             XK_v,      spawn,          SHCMD("xdotool type \"$(CM_OUTPUT_CLIP=1 clipmenu)\"") },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
