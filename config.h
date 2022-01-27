@@ -151,7 +151,7 @@ static Button buttons[] = {
 	{ ClkStatusText,        0,              Button5,        sigstatusbar,   {.i = 5} },
 	{ ClkStatusText,        ShiftMask,      Button1,        sigstatusbar,   {.i = 6} },
 	{ ClkStatusText,        ShiftMask,      Button2,        sigstatusbar,   {.i = 7} },
-	{ ClkStatusText,        ShiftMask,      Button3,        spawn,          SHCMD("tmux neww -t main: nvim ~/files/Code/Cloned/dwmblocks/config.h") },
+	{ ClkStatusText,        ShiftMask,      Button3,        sigstatusbar,   {.i = 8} },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
