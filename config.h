@@ -69,14 +69,16 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *termcmd[]  = { "terminal_tmux", NULL };
+static const char *termcmd1[]  = { "terminal_tmux", NULL };
+static const char *termcmd2[]  = { "st", NULL };
 
 #include <X11/XF86keysym.h>  // For XF86keysym keys.
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
-	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd1 } },
+	{ MODKEY|ControlMask,           XK_Return, spawn,          {.v = termcmd2 } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY|ShiftMask,             XK_b,      spawn,          SHCMD("killall stalonetray || stalonetray") },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
