@@ -2479,6 +2479,8 @@ maximize(int x, int y, int w, int h, int vertical_max, int horizontal_max) {
 
 void
 togglemaximize(const Arg *arg) {
+	if(!selmon->sel || selmon->sel->isfixed)
+		return;
 	if(selmon->sel->vertical_max || selmon->sel->horizontal_max)
 		maximize(0, 0, 0, 0, 0, 0);
 	else
@@ -2487,6 +2489,8 @@ togglemaximize(const Arg *arg) {
 
 void
 toggleverticalmax(const Arg *arg) {
+	if(!selmon->sel || selmon->sel->isfixed)
+		return;
 	switch((selmon->sel->vertical_max + arg->i) % 4) {
 		case 0:  // Original state.
 			maximize(selmon->sel->x, selmon->sel->origy, selmon->sel->w, selmon->sel->origh, 0, selmon->sel->horizontal_max);
@@ -2508,6 +2512,8 @@ toggleverticalmax(const Arg *arg) {
 
 void
 togglehorizontalmax(const Arg *arg) {
+	if(!selmon->sel || selmon->sel->isfixed)
+		return;
 	switch((selmon->sel->horizontal_max + arg->i) % 4) {
 		case 0:  // Original state.
 			maximize(selmon->sel->origx, selmon->sel->y, selmon->sel->origw, selmon->sel->h, selmon->sel->vertical_max, 0);
