@@ -20,7 +20,9 @@ static const char *colors[][3]      = {
 };
 
 /* tagging */
-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const char *tags[] = {"a", "b", "c", "d", "e", "f", "g", "h", "i",
+                             "j", "k", "l", "m", "n", "o", "p", "q", "r",
+                             "s", "t", "u", "v", "w", "x", "y", "z"};
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -91,7 +93,7 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             -1,        XK_j,      movestack,      {.i = +1 } },
 	{ MODKEY|ShiftMask,             -1,        XK_k,      movestack,      {.i = -1 } },
 	{ MODKEY|ShiftMask,             -1,        XK_Return, zoom,           {0} },
-	{ MODKEY,                       -1,        XK_Tab,    view,           {0} },
+	{ MODKEY,                       XK_Tab,    XK_0,      view,           {0} },
 	{ MODKEY,                       -1,        XK_c,      killclient,     {0} },
 	{ MODKEY,                       -1,        XK_v,      spawn,          SHCMD("clipmenu") },
 	{ MODKEY|ShiftMask,             -1,        XK_v,      spawn,          SHCMD("xdotool type \"$(CM_OUTPUT_CLIP=1 clipmenu)\"") },
@@ -118,6 +120,32 @@ static const Key keys[] = {
 	TAGKEYS(                        -1,        XK_7,                      6)
 	TAGKEYS(                        -1,        XK_8,                      7)
 	TAGKEYS(                        -1,        XK_9,                      8)
+	TAGKEYS(                        XK_Tab,    XK_a,                      ('a'-'a'))
+	TAGKEYS(                        XK_Tab,    XK_b,                      ('b'-'a'))
+	TAGKEYS(                        XK_Tab,    XK_c,                      ('c'-'a'))
+	TAGKEYS(                        XK_Tab,    XK_d,                      ('d'-'a'))
+	TAGKEYS(                        XK_Tab,    XK_e,                      ('e'-'a'))
+	TAGKEYS(                        XK_Tab,    XK_f,                      ('f'-'a'))
+	TAGKEYS(                        XK_Tab,    XK_g,                      ('g'-'a'))
+	TAGKEYS(                        XK_Tab,    XK_h,                      ('h'-'a'))
+	TAGKEYS(                        XK_Tab,    XK_i,                      ('i'-'a'))
+	TAGKEYS(                        XK_Tab,    XK_j,                      ('j'-'a'))
+	TAGKEYS(                        XK_Tab,    XK_k,                      ('k'-'a'))
+	TAGKEYS(                        XK_Tab,    XK_l,                      ('l'-'a'))
+	TAGKEYS(                        XK_Tab,    XK_m,                      ('m'-'a'))
+	TAGKEYS(                        XK_Tab,    XK_n,                      ('n'-'a'))
+	TAGKEYS(                        XK_Tab,    XK_o,                      ('o'-'a'))
+	TAGKEYS(                        XK_Tab,    XK_p,                      ('p'-'a'))
+	TAGKEYS(                        XK_Tab,    XK_q,                      ('q'-'a'))
+	TAGKEYS(                        XK_Tab,    XK_r,                      ('r'-'a'))
+	TAGKEYS(                        XK_Tab,    XK_s,                      ('s'-'a'))
+	TAGKEYS(                        XK_Tab,    XK_t,                      ('t'-'a'))
+	TAGKEYS(                        XK_Tab,    XK_u,                      ('u'-'a'))
+	TAGKEYS(                        XK_Tab,    XK_v,                      ('v'-'a'))
+	TAGKEYS(                        XK_Tab,    XK_w,                      ('w'-'a'))
+	TAGKEYS(                        XK_Tab,    XK_x,                      ('x'-'a'))
+	TAGKEYS(                        XK_Tab,    XK_y,                      ('y'-'a'))
+	TAGKEYS(                        XK_Tab,    XK_z,                      ('z'-'a'))
 	{ MODKEY,                       -1,        XK_Left,   togglehorizontalmax, {.i = -1 } },
 	{ MODKEY,                       -1,        XK_Right,  togglehorizontalmax, {.i = +1 } },
 	{ MODKEY,                       -1,        XK_Down,   toggleverticalmax,   {.i = -1 } },

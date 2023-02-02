@@ -182,7 +182,7 @@ Toggle horizontal maximisation of the focused window, cycling through: original 
 .B Mod4\-Shift\-Down
 Same as without shift but two steps at a time.
 .TP
-.B Mod4\-Tab
+.B Mod4\-Tab then 0
 Toggles to the previously selected tags.
 .TP
 .B Mod4\-Shift\-[1..n]
@@ -202,6 +202,18 @@ View all windows with any tag.
 .TP
 .B Mod4\-Control\-[1..n]
 Add/remove all windows with nth tag to/from the view.
+.TP
+.B Mod4\-Shift\-Tab then [a..z]
+Apply the specified tag to focused window.
+.TP
+.B Mod4\-Control\-Shift\-Tab then [a..z]
+Add/remove the specified tag to/from focused window.
+.TP
+.B Mod4\-Tab then [a..z]
+View all windows with the specified tag.
+.TP
+.B Mod4\-Control\-Tab then [a..z]
+Add/remove all windows with the specified tag to/from the view.
 .TP
 .B Mod4\-Shift\-q
 Quit dwm.
